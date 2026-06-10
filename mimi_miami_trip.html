@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌴 Mimi's Miami Trip</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --ocean: #0077b6;
+    --deep: #03045e;
+    --coral: #ff6b6b;
+    --gold: #f4a261;
+    --foam: #ffffff;
+    --ink: #1a1a2e;
+    --muted: #7a7a9a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #03045e 0%, #0077b6 55%, #023e8a 100%);
+    padding: 64px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 60px;
+    background: var(--sand);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: var(--foam);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 36px;
+  }
+  .hero-stats {
+    display: inline-flex;
+    gap: 32px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 60px;
+    padding: 14px 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat .val {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--foam);
+    display: block;
+  }
+  .hero-stat .lbl {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  /* ── SECTION ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--deep);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 36px;
+  }
+
+  /* ── ACTIVITY CARDS ── */
+  .activities {
+    padding: 60px 20px 40px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--foam);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(3,4,94,0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(3,4,94,0.14);
+  }
+  .card-thumb {
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+    background: #111;
+  }
+  .card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .card:hover .card-thumb img {
+    transform: scale(1.06);
+  }
+  .card-thumb .wave-line {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 28px;
+    background: var(--foam);
+    clip-path: polygon(0 60%, 20% 20%, 40% 60%, 60% 20%, 80% 60%, 100% 20%, 100% 100%, 0 100%);
+    z-index: 2;
+  }
+  .card-thumb .img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 100%);
+    z-index: 1;
+  }
+
+  .card-body {
+    padding: 18px 20px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-tag {
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+  .c1 .card-tag { background: #f0e0ff; color: #7b2fbe; }
+  .c2 .card-tag { background: #ddf0ff; color: #0077b6; }
+  .c3 .card-tag { background: #d6f5e3; color: #1b7a4a; }
+  .c4 .card-tag { background: #d0f4ff; color: #0098c9; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 16px;
+  }
+  .card-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 0.7rem;
+    color: #999;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .price-box {
+    background: #f8f5f0;
+    border-radius: 12px;
+    padding: 14px;
+    border-left: 3px solid;
+  }
+  .c1 .price-box { border-color: #7b2fbe; }
+  .c2 .price-box { border-color: #0077b6; }
+  .c3 .price-box { border-color: #1b7a4a; }
+  .c4 .price-box { border-color: #0098c9; }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .price-label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+  .price-val { font-size: 1.15rem; font-weight: 700; color: var(--ink); }
+  .price-total { font-size: 0.8rem; font-weight: 600; color: var(--coral); margin-top: 6px; }
+  .price-note { font-size: 0.68rem; color: #bbb; margin-top: 5px; line-height: 1.4; }
+
+  /* ── BOOK BUTTON ── */
+  .book-btn {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .book-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .c1 .book-btn { background: #7b2fbe; color: #fff; }
+  .c2 .book-btn { background: #0077b6; color: #fff; }
+  .c3 .book-btn { background: #1b7a4a; color: #fff; }
+  .c4 .book-btn { background: #0098c9; color: #fff; }
+
+  /* ── BUDGET SUMMARY ── */
+  .summary {
+    background: linear-gradient(135deg, var(--deep) 0%, var(--ocean) 100%);
+    margin: 0 20px 60px;
+    max-width: 1020px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 24px;
+    padding: 40px 36px;
+    color: var(--foam);
+    overflow: hidden;
+    position: relative;
+  }
+  .summary::after {
+    content: '🌴';
+    position: absolute;
+    right: -10px; bottom: -20px;
+    font-size: 9rem;
+    opacity: 0.06;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .summary h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+  .summary .s-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+
+  .sum-table { width: 100%; border-collapse: collapse; }
+  .sum-table th {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.4);
+    padding-bottom: 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sum-table th:last-child { text-align: right; }
+  .sum-table td {
+    padding: 12px 0;
+    font-size: 0.82rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.85);
+  }
+  .sum-table td:last-child { text-align: right; font-weight: 600; color: var(--gold); }
+  .sum-table tr:last-child td { border-bottom: none; }
+  .sum-table .icon-col { width: 32px; font-size: 1.1rem; }
+
+  .sum-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+  .sum-total-row .t-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+  .sum-total-row .t-val { font-size: 2rem; font-weight: 700; color: var(--foam); }
+  .sum-total-row .t-note { font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  /* ── TIPS ── */
+  .tips {
+    padding: 0 20px 60px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .tip {
+    background: var(--foam);
+    border-radius: 14px;
+    padding: 18px;
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.55;
+    border-top: 3px solid var(--ocean);
+  }
+  .tip strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.82rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px 20px 40px;
+    color: #bbb;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 520px) {
+    .cards { grid-template-columns: 1fr; }
+    .summary { padding: 28px 20px; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Miami, Florida</div>
+  <h1>Mimi's<br><em>Miami</em> Trip 🌴</h1>
+  <p class="hero-sub">Budget des activités · Partagez avec vos amies</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="val">4</span>
+      <span class="lbl">Activités</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">~$893</span>
+      <span class="lbl">Budget / pers.</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">~5 hrs</span>
+      <span class="lbl">De fun</span>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVITIES -->
+<div class="activities">
+  <h2 class="section-title">Les Activités</h2>
+  <p class="section-sub">Cliquez sur chaque carte pour voir les détails de prix</p>
+
+  <div class="cards">
+
+    <!-- Card 1: ATV -->
+    <div class="card c1">
+      <div class="card-thumb">
+        <img
+          src="https://cdn.getyourguide.com/img/tour/22443a5ba04bcc2aa2a98644f259344c6967021d318f78bda42a8cc5aa9912f7.jpeg/53.jpg"
+          referrerpolicy="no-referrer"
+          alt="Glow in the Dark ATV Riding Miami"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a0038,#6a1ea0)'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Night Thrills</span>
+        <div class="card-title">Glow in the Dark ATV Riding</div>
+        <div class="card-desc">Rides nocturnes en ATV dans les champs de Redland, avec néons et lumières. Parfait pour des photos inoubliables sous les étoiles de Miami.</div>
+        <div class="card-meta">
+          <span>⏱ ~45 min</span>
+          <span>📍 SW 172nd Ave</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Réservation en ligne</span>
+            <span class="price-val">$15</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Solde à payer sur place</span>
+            <span class="price-val">$100</span>
+          </div>
+          <div class="price-total">💰 Total estimé : ~$115/pers.</div>
+          <div class="price-note">⚠️ + dépôt remboursable de $100 à l'arrivée</div>
+        </div>
+        <a class="book-btn" href="https://www.getyourguide.com/miami-l176/best-night-atv-tour-in-miami-t533871/" target="_blank" rel="noopener">
+          🎟️ Réserver sur GetYourGuide →
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: JetCar -->
+    <div class="card c2">
+      <div class="card-thumb">
+        <img
+          src="https://cdn.getyourguide.com/img/tour/76567933a219509d.jpeg/53.jpg"
+          referrerpolicy="no-referrer"
+          alt="JetCar Miami 1-hour Rental"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#001f4d,#0077b6)'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">On the Water</span>
+        <div class="card-title">1-Hour JetCar Rental</div>
+        <div class="card-desc">La 1ère voiture de sport à 4 places sur l'eau aux USA. Musique Bluetooth, manoirs de célébrités, jusqu'à 65 mph. Une expérience unique à Miami Beach.</div>
+        <div class="card-meta">
+          <span>⏱ 30 min – 1h</span>
+          <span>👥 Jusqu'à 3 pers.</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Réservation en ligne</span>
+            <span class="price-val">$50</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Solde à payer sur place</span>
+            <span class="price-val">$250</span>
+          </div>
+          <div class="price-total">💰 Total estimé : ~$300/pers.</div>
+          <div class="price-note">⚠️ Partageable entre 3 personnes — prix réduit à ~$100/pers. en groupe</div>
+        </div>
+        <a class="book-btn" href="https://www.getyourguide.com/miami-l176/miami-1-hour-jetcar-rental-t489834/" target="_blank" rel="noopener">
+          🎟️ Réserver sur GetYourGuide →
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Yacht -->
+    <div class="card c3">
+      <div class="card-thumb">
+        <img
+          src="https://cdn.getyourguide.com/img/tour/623ded607c938.jpeg/53.jpg"
+          referrerpolicy="no-referrer"
+          alt="BYOB Private Yacht Cruise Miami - Bruschi Boat Rental"
+          onerror="this.src='https://cdn.getyourguide.com/img/tour/623ded607c938.jpeg';this.onerror=function(){this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0a2a1f,#1b7a4a)'}" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Private Yacht</span>
+        <div class="card-title">BYOB Private Yacht Cruise</div>
+        <div class="card-desc">Croisière privée sur un yacht de 37 pieds dans la baie de Miami. Apportez vos boissons, branchez votre playlist, admirez le skyline. Jusqu'à 12 personnes.</div>
+        <div class="card-meta">
+          <span>⏱ ~2 heures</span>
+          <span>👥 Jusqu'à 12 pers.</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Prix de base</span>
+            <span class="price-val">$298</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Frais (carburant + capitaine)</span>
+            <span class="price-val">~$95</span>
+          </div>
+          <div class="price-total">💰 Total estimé : ~$393/pers. (solo)</div>
+          <div class="price-note">✅ BYOB — glacière & glaçons fournis. Prix baisse beaucoup en groupe !</div>
+        </div>
+        <a class="book-btn" href="https://www.getyourguide.com/miami-l176/miami-private-yacht-cruise-play-your-own-music-byob-t415504/" target="_blank" rel="noopener">
+          🎟️ Réserver sur GetYourGuide →
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 4: JetSki -->
+    <div class="card c4">
+      <div class="card-thumb">
+        <img
+          src="https://cdn.getyourguide.com/img/tour/6596037bdb1f48198957ad8e5ec76c2ad2d6011192f60a7c87b3a00848b9613b.jpeg/53.jpg"
+          referrerpolicy="no-referrer"
+          alt="Self-Drive Jetski Miami Biscayne Bay"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#00334a,#0098c9)'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Water Sport</span>
+        <div class="card-title">Self-Drive Jetski Adventure</div>
+        <div class="card-desc">Sea-Doo 1800cc sur la baie de Biscayne. Solo ou en duo, vitesse libre, vue sur le skyline de Miami. Aucune expérience requise — briefing complet inclus.</div>
+        <div class="card-meta">
+          <span>⏱ ~1 heure</span>
+          <span>🏄 Solo ou duo</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Réservation en ligne</span>
+            <span class="price-val">$30–60</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Solde à payer sur place</span>
+            <span class="price-val">$100</span>
+          </div>
+          <div class="price-total">💰 Total estimé : ~$130–160/pers.</div>
+          <div class="price-note">✅ Débutants bienvenus. $130 si 2 personnes partagent un jetski.</div>
+        </div>
+        <a class="book-btn" href="https://www.getyourguide.com/miami-l176/miami-self-drive-jetski-adventure-t650533/" target="_blank" rel="noopener">
+          🎟️ Réserver sur GetYourGuide →
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BUDGET SUMMARY -->
+<div class="summary">
+  <h2>Résumé du Budget</h2>
+  <p class="s-sub">Estimations par personne · Réservations via GetYourGuide ou Viator</p>
+
+  <table class="sum-table">
+    <thead>
+      <tr>
+        <th class="icon-col"></th>
+        <th>Activité</th>
+        <th>Durée</th>
+        <th>Total / pers.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🏍️</td>
+        <td>Glow in the Dark ATV</td>
+        <td>~45 min</td>
+        <td>~$115</td>
+      </tr>
+      <tr>
+        <td>🏎️</td>
+        <td>JetCar 1 heure</td>
+        <td>~1h</td>
+        <td>~$300</td>
+      </tr>
+      <tr>
+        <td>⛵</td>
+        <td>BYOB Private Yacht Cruise</td>
+        <td>~2h</td>
+        <td>~$393</td>
+      </tr>
+      <tr>
+        <td>🌊</td>
+        <td>Self-Drive Jetski</td>
+        <td>~1h</td>
+        <td>~$160</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sum-total-row">
+    <div>
+      <div class="t-label">Budget total estimé</div>
+      <div class="t-val">~$968 <span style="font-size:0.9rem;opacity:0.6;">/ pers.</span></div>
+      <div class="t-note">* Le yacht coûte beaucoup moins en groupe (jusqu'à 12 personnes)</div>
+    </div>
+    <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:1.8;">
+      Prix en USD<br>Sans tips ni boissons<br>À vérifier avant réservation
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="tips">
+  <h2 class="section-title">Conseils Pratiques</h2>
+  <p class="section-sub">Pour éviter les mauvaises surprises</p>
+  <div class="tips-grid">
+    <div class="tip">
+      <strong>💳 Paiement sur place</strong>
+      La plupart des activités ont un solde supplémentaire à payer à l'arrivée en espèces ou carte. Prévenez vos amies à l'avance !
+    </div>
+    <div class="tip">
+      <strong>👯 Plus on est, moins c'est cher</strong>
+      Le yacht passe de ~$393 à bien moins avec 6–10 personnes. Recrutez les filles !
+    </div>
+    <div class="tip">
+      <strong>📱 Permis de bateau</strong>
+      Née après 1987 ? Il faut un permis FL en ligne (~$9.99) pour le JetCar. Simple et rapide.
+    </div>
+    <div class="tip">
+      <strong>🌦️ Météo</strong>
+      Le JetCar et le Jetski peuvent être annulés pour mauvais temps. Vérifiez les politiques d'annulation avant de réserver.
+    </div>
+    <div class="tip">
+      <strong>📅 Réservation</strong>
+      Réservez via GetYourGuide, Viator ou Expedia. Annulation gratuite jusqu'à 24h avant pour la plupart.
+    </div>
+    <div class="tip">
+      <strong>🥂 Yacht BYOB</strong>
+      Apportez vos propres boissons et snacks — glacière fournie. Planifiez ça ensemble pour économiser !
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Fait avec ❤️ pour Mimi &amp; ses amies · Miami 🌴 · Réservations sur GetYourGuide &amp; Viator
+</footer>
+
+</body>
+</html>
