@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚗 Mimi's Miami — Budget Voiture</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --ocean: #0077b6;
+    --deep: #03045e;
+    --coral: #ff6b6b;
+    --gold: #f4a261;
+    --foam: #ffffff;
+    --ink: #1a1a2e;
+    --muted: #7a7a9a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #0a1a00 0%, #2e5c00 55%, #1a3a00 100%);
+    padding: 64px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 60px;
+    background: var(--sand);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: var(--foam); line-height: 1.1; margin-bottom: 12px;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    color: rgba(255,255,255,0.6); font-size: 0.9rem;
+    font-weight: 300; letter-spacing: 1px; margin-bottom: 36px;
+  }
+  .hero-stats {
+    display: inline-flex; gap: 32px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 60px; padding: 14px 32px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .val { font-size: 1.4rem; font-weight: 700; color: var(--foam); display: block; }
+  .hero-stat .lbl { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; }
+
+  /* ── SECTION ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; color: var(--deep);
+    text-align: center; margin-bottom: 8px;
+  }
+  .section-sub { text-align: center; color: var(--muted); font-size: 0.85rem; margin-bottom: 36px; }
+
+  /* ── CARDS ── */
+  .activities {
+    padding: 60px 20px 40px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: var(--foam);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(3,4,94,0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex; flex-direction: column;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(3,4,94,0.14); }
+
+  .card-thumb {
+    height: 220px; position: relative; overflow: hidden; background: #222;
+  }
+  .card-thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.4s ease;
+  }
+  .card:hover .card-thumb img { transform: scale(1.06); }
+  .card-thumb .wave-line {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 28px;
+    background: var(--foam);
+    clip-path: polygon(0 60%, 20% 20%, 40% 60%, 60% 20%, 80% 60%, 100% 20%, 100% 100%, 0 100%);
+    z-index: 2;
+  }
+  .card-thumb .img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.38) 100%);
+    z-index: 1;
+  }
+  .c1 .card-thumb { background: linear-gradient(135deg,#0a1a00,#2e5c00); }
+  .c2 .card-thumb { background: linear-gradient(135deg,#001020,#003060); }
+
+  .card-body { padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; }
+
+  .card-tag {
+    font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 3px 10px; border-radius: 20px;
+    display: inline-block; margin-bottom: 10px; width: fit-content;
+  }
+  .c1 .card-tag { background: #d6f5d6; color: #1a5c1a; }
+  .c2 .card-tag { background: #ddf0ff; color: #0055a0; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; color: var(--ink); line-height: 1.35; margin-bottom: 8px;
+  }
+  .card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .card-meta { display: flex; gap: 10px; font-size: 0.7rem; color: #999; margin-bottom: 14px; flex-wrap: wrap; }
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .price-box {
+    background: #f8f5f0; border-radius: 12px; padding: 14px; border-left: 3px solid;
+  }
+  .c1 .price-box { border-color: #2e5c00; }
+  .c2 .price-box { border-color: #0055a0; }
+
+  .price-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+  .price-label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+  .price-val { font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+  .price-total { font-size: 0.82rem; font-weight: 600; color: var(--coral); margin-top: 8px; }
+  .price-note { font-size: 0.68rem; color: #bbb; margin-top: 5px; line-height: 1.4; }
+
+  /* rental links grid */
+  .rental-links {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rental-link-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rental-badge {
+    font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; padding: 3px 8px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .badge-cheap { background: #d6f5d6; color: #1a5c1a; }
+  .badge-luxury { background: #fff0d0; color: #8a4000; }
+
+  .rental-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 7px 14px; border-radius: 8px;
+    font-size: 0.74rem; font-weight: 600;
+    text-decoration: none; letter-spacing: 0.3px;
+    transition: opacity 0.2s, transform 0.15s;
+    flex: 1; justify-content: center;
+  }
+  .rental-btn:hover { opacity: 0.82; transform: translateY(-1px); }
+  .rental-btn.cheap { background: #2e5c00; color: #fff; }
+  .rental-btn.luxury { background: #8a4000; color: #fff; }
+  .rental-btn.luxury2 { background: #1a1a2e; color: #f4a261; }
+
+  /* ── SUMMARY ── */
+  .summary {
+    background: linear-gradient(135deg, #0a1a00 0%, #2e5c00 100%);
+    margin: 0 20px 60px;
+    max-width: 860px;
+    margin-left: auto; margin-right: auto;
+    border-radius: 24px; padding: 40px 36px;
+    color: var(--foam); overflow: hidden; position: relative;
+  }
+  .summary::after {
+    content: '🚗';
+    position: absolute; right: -10px; bottom: -20px;
+    font-size: 9rem; opacity: 0.06; line-height: 1; pointer-events: none;
+  }
+  .summary h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 6px; }
+  .summary .s-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+
+  .sum-table { width: 100%; border-collapse: collapse; }
+  .sum-table th {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.4); padding-bottom: 10px;
+    text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sum-table th:last-child { text-align: right; }
+  .sum-table td {
+    padding: 12px 0; font-size: 0.82rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.85);
+  }
+  .sum-table td:last-child { text-align: right; font-weight: 600; color: var(--gold); }
+  .sum-table tr:last-child td { border-bottom: none; }
+  .sum-table .icon-col { width: 32px; font-size: 1.1rem; }
+
+  .sum-total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    flex-wrap: wrap; gap: 12px;
+  }
+  .sum-total-row .t-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+  .sum-total-row .t-val { font-size: 2rem; font-weight: 700; color: var(--foam); }
+  .sum-total-row .t-note { font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  /* ── TIPS ── */
+  .tips { padding: 0 20px 60px; max-width: 860px; margin: 0 auto; }
+  .tips-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px; margin-top: 24px;
+  }
+  .tip {
+    background: var(--foam); border-radius: 14px; padding: 18px;
+    font-size: 0.8rem; color: #555; line-height: 1.55;
+    border-top: 3px solid #2e5c00;
+  }
+  .tip strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.82rem; }
+
+  footer {
+    text-align: center; padding: 28px 20px 40px;
+    color: #bbb; font-size: 0.72rem; letter-spacing: 1px;
+  }
+
+  @media (max-width: 600px) {
+    .cards { grid-template-columns: 1fr; }
+    .summary { padding: 28px 18px; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Atlanta → Miami · Road Trip</div>
+  <h1>Mimi's Miami<br><em>Budget Voiture</em> 🚗</h1>
+  <p class="hero-sub">Trajet + Essence + Location · 27–29 Juillet 2026</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="val">662 mi</span>
+      <span class="lbl">Distance</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">~$462</span>
+      <span class="lbl">Budget total</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">~10h</span>
+      <span class="lbl">Route</span>
+    </div>
+  </div>
+</div>
+
+<!-- CARDS -->
+<div class="activities">
+  <h2 class="section-title">Les Dépenses</h2>
+  <p class="section-sub">Trajet depuis Atlanta + Location à Miami · 27–29 Juillet</p>
+
+  <div class="cards">
+
+    <!-- Card 1 : Road Trip -->
+    <div class="card c1">
+      <div class="card-thumb">
+        <img
+          src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=900&q=80"
+          referrerpolicy="no-referrer"
+          alt="Car driving on highway road trip Atlanta to Miami"
+          onerror="this.src='https://images.unsplash.com/photo-1464219789935-c2d9d9aba644?w=900&q=80';this.onerror=null" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">🛣️ Trajet Atlanta → Miami</span>
+        <div class="card-title">Essence & Péages — Aller/Retour</div>
+        <div class="card-desc">662 miles via I-75 S + Florida Turnpike. À 25 MPG, comptez ~26.5 gallons par sens. La Florida Turnpike est 100% électronique — péages facturés par plaque si pas de SunPass.</div>
+        <div class="card-meta">
+          <span>📍 662 miles / sens</span>
+          <span>⏱ ~10h30</span>
+          <span>🛣️ I-75 S</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Essence aller Atlanta → Miami (26.5 gal × $3.80)</span>
+            <span class="price-val">~$101</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Essence retour Miami → Atlanta (26.5 gal × $3.92)</span>
+            <span class="price-val">~$104</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Péages Florida Turnpike A/R</span>
+            <span class="price-val">~$40–50</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Essence à Miami — 3 jours (~300 mi · 12 gal × $3.92)</span>
+            <span class="price-val">~$47</span>
+          </div>
+          <div class="price-total">💰 Total trajet + gas Miami : ~$292–$302</div>
+          <div class="price-note">⛽ Atlanta : $3.80/gal · Miami (AAA FL juillet 2026) : ~$3.92/gal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 : Location -->
+    <div class="card c2">
+      <div class="card-thumb">
+        <img
+          src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=900&q=80"
+          referrerpolicy="no-referrer"
+          alt="Car rental keys Miami"
+          onerror="this.style.display='none'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">🚗 Location Miami — 3 Jours</span>
+        <div class="card-title">Voiture de Location à Miami</div>
+        <div class="card-desc">Location à l'aéroport MIA ou en ville, du 27 au 29 juillet. Deux options : économique pour le budget, ou luxury/exotic pour vivre Miami en mode VIP.</div>
+        <div class="card-meta">
+          <span>📅 27–29 Juillet 2026</span>
+          <span>🏢 MIA Airport ou city</span>
+        </div>
+        <div class="price-box">
+
+          <!-- CHEAP -->
+          <div style="margin-bottom:12px;">
+            <div class="price-row">
+              <span class="price-label">💚 Option Économique (Economy/Compact)</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">$29–40/jour × 3 jours</span>
+              <span class="price-val">~$87–120</span>
+            </div>
+            <div style="font-size:0.7rem;color:#999;margin-bottom:6px;">+ taxes aéroport ~30% = ~$120–160 total</div>
+            <div class="rental-links">
+              <div class="rental-link-row">
+                <span class="rental-badge badge-cheap">Cheap</span>
+                <a class="rental-btn cheap" href="https://www.kayak.com/Cheap-Miami-Car-Rentals.14305.cars.ksp" target="_blank" rel="noopener">🔍 Comparer sur KAYAK →</a>
+              </div>
+              <div class="rental-link-row">
+                <span class="rental-badge badge-cheap">Budget</span>
+                <a class="rental-btn cheap" href="https://www.budget.com/en/locations/us/fl/miami/mia" target="_blank" rel="noopener">💳 Budget Car Rental MIA →</a>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:1px;background:#e8e0d6;margin:12px 0;"></div>
+
+          <!-- LUXURY -->
+          <div>
+            <div class="price-row">
+              <span class="price-label">🔥 Option Luxury / Exotic</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">Porsche / Benz / BMW ($200–400/jour)</span>
+              <span class="price-val">~$600–1,200</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">Ferrari / Lamborghini ($1,295–1,795/j)</span>
+              <span class="price-val">~$3,900–5,400</span>
+            </div>
+            <div class="rental-links" style="margin-top:8px;">
+              <div class="rental-link-row">
+                <span class="rental-badge badge-luxury">Luxury</span>
+                <a class="rental-btn luxury" href="https://turo.com/us/en/exotic-luxury-rental/united-states/miami-fl" target="_blank" rel="noopener">🏎️ Turo Miami →</a>
+              </div>
+              <div class="rental-link-row">
+                <span class="rental-badge badge-luxury">Exotic</span>
+                <a class="rental-btn luxury2" href="https://monarc.vip/" target="_blank" rel="noopener">🌟 Monarc VIP Miami →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="price-note" style="margin-top:10px;">⚠️ Luxury : dépôt de sécurité $1,000–5,000 requis · CDW assurance incluse chez Monarc</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary">
+  <h2>Récap Budget Voiture</h2>
+  <p class="s-sub">Estimations · Gas à ~$4.30/gal · 25 MPG · 1 voiture pour le trajet</p>
+
+  <table class="sum-table">
+    <thead>
+      <tr>
+        <th class="icon-col"></th>
+        <th>Poste</th>
+        <th>Détail</th>
+        <th>Montant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>⛽</td>
+        <td>Essence aller (Atlanta → Miami)</td>
+        <td>26.5 gal × $3.80/gal (Atlanta)</td>
+        <td>~$101</td>
+      </tr>
+      <tr>
+        <td>⛽</td>
+        <td>Essence retour (Miami → Atlanta)</td>
+        <td>26.5 gal × $3.92/gal (Miami)</td>
+        <td>~$104</td>
+      </tr>
+      <tr>
+        <td>🛣️</td>
+        <td>Péages Florida Turnpike A/R</td>
+        <td>~$20–25 × 2 sens</td>
+        <td>~$40–50</td>
+      </tr>
+      <tr>
+        <td>🚗</td>
+        <td>Essence à Miami (3 jours)</td>
+        <td>~300 mi · ~12 gal · $3.92/gal</td>
+        <td>~$47</td>
+      </tr>
+      <tr>
+        <td>🔑</td>
+        <td>Location voiture Miami (option cheap)</td>
+        <td>3 jours · avec taxes</td>
+        <td>~$120–160</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sum-total-row">
+    <div>
+      <div class="t-label">Budget total voiture (option économique)</div>
+      <div class="t-val">~$412 – $462</div>
+      <div class="t-note">* À 4 passagers = ~$103–$116 / pers. · Option luxury non incluse dans ce total</div>
+    </div>
+    <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:2;">
+      Atlanta : $3.80/gal<br>
+      Miami : ~$3.92/gal<br>
+      Taxes location incluses
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="tips">
+  <h2 class="section-title">Conseils Pratiques</h2>
+  <p class="section-sub">Pour optimiser le budget route</p>
+  <div class="tips-grid">
+    <div class="tip">
+      <strong>⛽ Faites le plein en Géorgie</strong>
+      L'essence en Géorgie est ~$0.10–0.15/gal moins chère qu'en Floride. Faites le plein à Atlanta avant de partir pour économiser sur le premier tiers du trajet.
+    </div>
+    <div class="tip">
+      <strong>🛣️ Péages sans SunPass</strong>
+      La Florida Turnpike ne prend plus le cash — tout est par caméra. Sans transponder, vous recevrez une facture par courrier avec frais admin. Vérifiez si la location inclut un pass.
+    </div>
+    <div class="tip">
+      <strong>💳 Carte de crédit = assurance</strong>
+      Visa et Mastercard couvrent souvent la CDW (assurance collision). Vérifiez votre carte avant de payer ~$15–20/jour en plus à la location — ça peut économiser $45–60.
+    </div>
+    <div class="tip">
+      <strong>👥 Partagez les frais</strong>
+      À 4 passagers, le budget total (~$440–490) tombe à environ $110–123 par personne. La location reste à votre charge individuelle si vous prenez une voiture séparée à Miami.
+    </div>
+  </div>
+</div>
+
+<footer>
+  Fait avec ❤️ pour Mimi &amp; ses amies · Road Trip Atlanta → Miami 🌴 · Prix estimés juillet 2026
+</footer>
+
+</body>
+</html>
