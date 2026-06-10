@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏠 Mimi's Miami — Airbnb</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --ocean: #0077b6;
+    --deep: #03045e;
+    --coral: #ff6b6b;
+    --gold: #f4a261;
+    --foam: #ffffff;
+    --ink: #1a1a2e;
+    --muted: #7a7a9a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #6b0f1a 0%, #c0392b 55%, #8b1a1a 100%);
+    padding: 64px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 60px;
+    background: var(--sand);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: var(--foam); line-height: 1.1; margin-bottom: 12px;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    color: rgba(255,255,255,0.6); font-size: 0.9rem;
+    font-weight: 300; letter-spacing: 1px; margin-bottom: 36px;
+  }
+  .hero-stats {
+    display: inline-flex; gap: 32px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 60px; padding: 14px 32px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .val { font-size: 1.4rem; font-weight: 700; color: var(--foam); display: block; }
+  .hero-stat .lbl { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; }
+
+  /* ── SECTION ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; color: var(--deep);
+    text-align: center; margin-bottom: 8px;
+  }
+  .section-sub { text-align: center; color: var(--muted); font-size: 0.85rem; margin-bottom: 36px; }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    padding: 60px 20px 40px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+
+  /* ── PHOTO GALLERY ── */
+  .gallery {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 8px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 24px rgba(3,4,94,0.10);
+  }
+  .gallery-main {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    position: relative;
+    overflow: hidden;
+  }
+  .gallery-main img, .gallery-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.4s ease;
+  }
+  .gallery-main:hover img, .gallery-thumb:hover img { transform: scale(1.04); }
+  .gallery-thumb { position: relative; overflow: hidden; }
+
+  /* badge on main */
+  .gallery-badges {
+    position: absolute; bottom: 14px; left: 14px;
+    display: flex; gap: 8px; z-index: 2;
+  }
+  .g-badge {
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+    color: #fff; font-size: 0.68rem; font-weight: 600;
+    padding: 5px 12px; border-radius: 20px; letter-spacing: 0.5px;
+  }
+
+  /* ── 2-COL LAYOUT: card + sidebar ── */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── LISTING CARD (left) ── */
+  .listing-card {
+    background: var(--foam);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(3,4,94,0.07);
+  }
+  .listing-header {
+    padding: 24px 24px 0;
+  }
+  .listing-tag {
+    font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 3px 10px; border-radius: 20px;
+    display: inline-block; margin-bottom: 10px;
+    background: #ffe0e0; color: #c0392b;
+  }
+  .listing-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: var(--ink); line-height: 1.25; margin-bottom: 8px;
+  }
+  .listing-sub {
+    font-size: 0.8rem; color: var(--muted); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .listing-sub span { display: flex; align-items: center; gap: 4px; }
+  .rating-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.82rem; color: var(--ink); margin-bottom: 18px;
+  }
+  .stars { color: #f4a261; font-size: 0.9rem; }
+  .fav-badge {
+    background: #fff3e0; color: #b06000;
+    font-size: 0.65rem; font-weight: 700; padding: 3px 10px;
+    border-radius: 20px; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* amenities */
+  .amenities {
+    padding: 18px 24px;
+    border-top: 1px solid #f0ebe4;
+  }
+  .amenities-title {
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted); margin-bottom: 12px;
+  }
+  .amenities-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .amenity {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.78rem; color: #555;
+  }
+  .amenity .icon { font-size: 1rem; flex-shrink: 0; }
+
+  /* warning */
+  .warning-box {
+    margin: 0 24px 20px;
+    background: #fff8e1;
+    border: 1px solid #f4a261;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 0.76rem;
+    color: #7a4f00;
+    line-height: 1.55;
+  }
+  .warning-box .w-title {
+    font-weight: 700; margin-bottom: 6px; font-size: 0.78rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* book btn */
+  .listing-footer {
+    padding: 0 24px 24px;
+  }
+  .book-btn {
+    display: block; text-align: center;
+    padding: 12px 16px; border-radius: 12px;
+    font-size: 0.82rem; font-weight: 700;
+    text-decoration: none; letter-spacing: 0.5px;
+    background: #ff385c; color: #fff;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .book-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ── PRICE SIDEBAR (right) ── */
+  .price-sidebar {
+    background: var(--foam);
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(3,4,94,0.07);
+    overflow: hidden;
+    position: sticky;
+    top: 20px;
+  }
+  .price-sidebar-header {
+    background: linear-gradient(135deg, #c0392b, #6b0f1a);
+    padding: 22px 22px 18px;
+    color: #fff;
+  }
+  .price-sidebar-header .big-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 700; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-sidebar-header .per-night {
+    font-size: 0.75rem; opacity: 0.7; letter-spacing: 0.5px;
+  }
+  .dates-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: #f0ebe4;
+    border-top: 1px solid #f0ebe4;
+  }
+  .date-cell {
+    background: var(--foam); padding: 12px 16px;
+  }
+  .date-cell .d-label {
+    font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted); margin-bottom: 3px;
+  }
+  .date-cell .d-val {
+    font-size: 0.88rem; font-weight: 600; color: var(--ink);
+  }
+  .guests-row {
+    background: var(--foam);
+    padding: 12px 16px;
+    border-top: 1px solid #f0ebe4;
+    font-size: 0.78rem; color: var(--muted);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .guests-row span:last-child { color: var(--ink); font-weight: 600; }
+
+  /* price breakdown */
+  .price-breakdown {
+    padding: 18px 18px 0;
+  }
+  .p-row {
+    display: flex; justify-content: space-between;
+    align-items: baseline; padding: 8px 0;
+    border-bottom: 1px solid #f5f0ea;
+    font-size: 0.82rem;
+  }
+  .p-row:last-child { border-bottom: none; }
+  .p-row .p-label { color: #666; }
+  .p-row .p-val { font-weight: 600; color: var(--ink); }
+  .p-row.total {
+    padding-top: 14px;
+    border-top: 2px solid var(--ink);
+    margin-top: 4px;
+  }
+  .p-row.total .p-label {
+    font-weight: 700; font-size: 0.9rem; color: var(--ink);
+  }
+  .p-row.total .p-val {
+    font-size: 1.2rem; color: #c0392b;
+  }
+
+  /* per person */
+  .per-person-box {
+    margin: 14px 18px 18px;
+    background: #f8f5f0;
+    border-radius: 12px; padding: 12px 14px;
+    border-left: 3px solid #c0392b;
+  }
+  .per-person-box .pp-label {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .per-person-box .pp-val {
+    font-size: 1.1rem; font-weight: 700; color: var(--ink);
+  }
+  .per-person-box .pp-note {
+    font-size: 0.66rem; color: #bbb; margin-top: 3px;
+  }
+
+  /* free cancel */
+  .free-cancel {
+    margin: 0 18px 18px;
+    background: #e8f5e9;
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 0.74rem; color: #2e7d32;
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 600;
+  }
+
+  /* ── SUMMARY BAR ── */
+  .summary {
+    background: linear-gradient(135deg, #6b0f1a 0%, #c0392b 100%);
+    margin: 0 20px 60px;
+    max-width: 1020px;
+    margin-left: auto; margin-right: auto;
+    border-radius: 24px; padding: 40px 36px;
+    color: var(--foam); overflow: hidden; position: relative;
+  }
+  .summary::after {
+    content: '🏠';
+    position: absolute; right: -10px; bottom: -20px;
+    font-size: 9rem; opacity: 0.06; line-height: 1; pointer-events: none;
+  }
+  .summary h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 6px; }
+  .summary .s-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+  .sum-table { width: 100%; border-collapse: collapse; }
+  .sum-table th {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.4); padding-bottom: 10px;
+    text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sum-table th:last-child { text-align: right; }
+  .sum-table td {
+    padding: 12px 0; font-size: 0.82rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.85);
+  }
+  .sum-table td:last-child { text-align: right; font-weight: 600; color: var(--gold); }
+  .sum-table tr:last-child td { border-bottom: none; }
+  .sum-table .icon-col { width: 32px; font-size: 1.1rem; }
+  .sum-total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    flex-wrap: wrap; gap: 12px;
+  }
+  .sum-total-row .t-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+  .sum-total-row .t-val { font-size: 2rem; font-weight: 700; color: var(--foam); }
+  .sum-total-row .t-note { font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  /* ── TIPS ── */
+  .tips { padding: 0 20px 60px; max-width: 1060px; margin: 0 auto; }
+  .tips-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px; margin-top: 24px;
+  }
+  .tip {
+    background: var(--foam); border-radius: 14px; padding: 18px;
+    font-size: 0.8rem; color: #555; line-height: 1.55;
+    border-top: 3px solid #c0392b;
+  }
+  .tip strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.82rem; }
+
+  footer {
+    text-align: center; padding: 28px 20px 40px;
+    color: #bbb; font-size: 0.72rem; letter-spacing: 1px;
+  }
+
+  @media (max-width: 780px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .price-sidebar { position: static; }
+    .gallery { grid-template-columns: 1fr; grid-template-rows: 220px 150px 150px; }
+    .gallery-main { grid-row: 1; }
+    .summary { padding: 28px 18px; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Miami, Florida · Airbnb</div>
+  <h1>Mimi's Miami<br><em>Airbnb</em> 🏠</h1>
+  <p class="hero-sub">27 – 30 Juillet 2026 · 3 nuits · 6 personnes</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="val">3 nuits</span>
+      <span class="lbl">Séjour</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">$937.90</span>
+      <span class="lbl">Total</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">4.85 ⭐</span>
+      <span class="lbl">Note</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">44e étage</span>
+      <span class="lbl">Floor</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <h2 class="section-title">Le Logement</h2>
+  <p class="section-sub">Icon Brickell · Miami, Florida · Vue City & Ocean</p>
+
+  <!-- GALLERY -->
+  <div class="gallery">
+    <div class="gallery-main">
+      <img
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-1456867249462023206/original/951de26d-340d-41be-9ecf-c7f35433dc43.png?im_w=1200"
+        referrerpolicy="no-referrer"
+        alt="Icon 2B/2B — Living room with City & Ocean View"
+        onerror="this.style.display='none'" />
+      <div class="gallery-badges">
+        <span class="g-badge">44th Floor</span>
+        <span class="g-badge">City & Ocean View</span>
+      </div>
+    </div>
+    <div class="gallery-thumb">
+      <img
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQ1Njg2NzI0OTQ2MjAyMzIwNg==/original/148f3631-bdf9-4b50-95d6-b8f8bf9d84cc.jpeg?im_w=720"
+        referrerpolicy="no-referrer"
+        alt="Icon Miami — Bedroom"
+        onerror="this.style.display='none'" />
+    </div>
+    <div class="gallery-thumb">
+      <img
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQ1Njg2NzI0OTQ2MjAyMzIwNg==/original/da419f89-2e39-469f-bedc-6f0ff843d2ec.jpeg?im_w=720"
+        referrerpolicy="no-referrer"
+        alt="Icon Miami — Exterior & Pool View"
+        onerror="this.style.display='none'" />
+    </div>
+    <div class="gallery-thumb">
+      <img
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQ1Njg2NzI0OTQ2MjAyMzIwNg==/original/5b15ead1-b094-4616-be0e-673f1dc61d20.png?im_w=720"
+        referrerpolicy="no-referrer"
+        alt="Icon Miami — Bedroom 2"
+        onerror="this.style.display='none'" />
+    </div>
+    <div class="gallery-thumb">
+      <img
+        src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQ1Njg2NzI0OTQ2MjAyMzIwNg==/original/021db48a-63f8-44e1-b1b8-6d3c653cf10e.jpeg?im_w=720"
+        referrerpolicy="no-referrer"
+        alt="Icon Miami — Bathroom"
+        onerror="this.style.display='none'" />
+    </div>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="content-grid">
+
+    <!-- LEFT: Listing card -->
+    <div class="listing-card">
+      <div class="listing-header">
+        <span class="listing-tag">🏙️ Entire Rental Unit</span>
+        <div class="listing-name">Icon 2B/2B free Spa Pool Hottub</div>
+        <div class="listing-sub">
+          <span>👥 6 guests</span>
+          <span>🛏️ 2 bedrooms · 4 beds</span>
+          <span>🚿 2 baths</span>
+          <span>📍 Miami, Florida</span>
+        </div>
+        <div class="rating-row">
+          <span class="stars">★★★★★</span>
+          <strong>4.85</strong>
+          <span style="color:var(--muted);font-size:0.78rem;">· 59 reviews</span>
+          <span class="fav-badge">🏆 Guest Favorite</span>
+        </div>
+      </div>
+
+      <!-- Amenities -->
+      <div class="amenities">
+        <div class="amenities-title">Équipements inclus</div>
+        <div class="amenities-grid">
+          <div class="amenity"><span class="icon">🏊</span> Pool (Spa & Hottub)</div>
+          <div class="amenity"><span class="icon">🌊</span> Vue City & Ocean</div>
+          <div class="amenity"><span class="icon">🛁</span> Free Spa access</div>
+          <div class="amenity"><span class="icon">🔑</span> Self check-in</div>
+          <div class="amenity"><span class="icon">📶</span> WiFi inclus</div>
+          <div class="amenity"><span class="icon">🍳</span> Cuisine équipée</div>
+          <div class="amenity"><span class="icon">🖥️</span> TV</div>
+          <div class="amenity"><span class="icon">🧺</span> Lave-linge</div>
+          <div class="amenity"><span class="icon">❄️</span> Climatisation</div>
+          <div class="amenity"><span class="icon">🎁</span> $100 off experience</div>
+        </div>
+      </div>
+
+      <!-- Warning -->
+      <div class="warning-box">
+        <div class="w-title">⚠️ Important — Travaux en cours</div>
+        La piscine est <strong>fermée lundi–jeudi</strong> pour travaux (jusqu'à fin 2026). Les balcons sont temporairement fermés et couverts d'un film protecteur. <strong>Le spa et le fitness restent ouverts.</strong> Le spa est réservé aux adultes uniquement.
+      </div>
+
+      <div class="listing-footer">
+        <a class="book-btn"
+           href="https://www.airbnb.com/rooms/1456867249462023206?check_in=2026-07-27&check_out=2026-07-30&guests=5&adults=6"
+           target="_blank" rel="noopener">
+          🏠 Voir & Réserver sur Airbnb →
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Price sidebar -->
+    <div class="price-sidebar">
+      <div class="price-sidebar-header">
+        <div class="big-price">$276.67</div>
+        <div class="per-night">par nuit · Prix bas pour ces dates 🍃</div>
+      </div>
+
+      <div class="dates-row">
+        <div class="date-cell">
+          <div class="d-label">Check-in</div>
+          <div class="d-val">27 Juillet 2026</div>
+        </div>
+        <div class="date-cell">
+          <div class="d-label">Check-out</div>
+          <div class="d-val">30 Juillet 2026</div>
+        </div>
+      </div>
+
+      <div class="guests-row">
+        <span>Voyageurs</span>
+        <span>6 adultes</span>
+      </div>
+
+      <div class="price-breakdown">
+        <div class="p-row">
+          <span class="p-label">3 nuits × $276.67</span>
+          <span class="p-val">$830.00</span>
+        </div>
+        <div class="p-row">
+          <span class="p-label">Taxes</span>
+          <span class="p-val">$107.90</span>
+        </div>
+        <div class="p-row total">
+          <span class="p-label">Total USD</span>
+          <span class="p-val">$937.90</span>
+        </div>
+      </div>
+
+      <div class="per-person-box">
+        <div class="pp-label">Par personne (6 filles)</div>
+        <div class="pp-val">~$156.32 / pers.</div>
+        <div class="pp-note">$937.90 ÷ 6 · Taxes incluses</div>
+      </div>
+
+      <div class="free-cancel">
+        ✅ Annulation gratuite avant le 22 juillet 2026
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary">
+  <h2>Récap Budget Airbnb</h2>
+  <p class="s-sub">Icon 2B/2B · 44th Floor · Miami Brickell · 27–30 Juillet 2026</p>
+  <table class="sum-table">
+    <thead>
+      <tr>
+        <th class="icon-col"></th>
+        <th>Poste</th>
+        <th>Détail</th>
+        <th>Montant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🌙</td>
+        <td>3 nuits de location</td>
+        <td>3 × $276.67/nuit</td>
+        <td>$830.00</td>
+      </tr>
+      <tr>
+        <td>🏛️</td>
+        <td>Taxes</td>
+        <td>Incluses dans le total</td>
+        <td>$107.90</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="sum-total-row">
+    <div>
+      <div class="t-label">Total Airbnb · 6 personnes · 3 nuits</div>
+      <div class="t-val">$937.90</div>
+      <div class="t-note">* ~$156.32 / personne · Annulation gratuite avant le 22 juillet</div>
+    </div>
+    <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:2;">
+      Hosted by Maxs-Stays<br>
+      5 years hosting<br>
+      Dates priced lower than usual
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="tips">
+  <h2 class="section-title">Conseils Pratiques</h2>
+  <p class="section-sub">Pour profiter au maximum du séjour</p>
+  <div class="tips-grid">
+    <div class="tip">
+      <strong>⚠️ Piscine fermée lun–jeu</strong>
+      La piscine est fermée en semaine (travaux jusqu'à fin 2026). Si vous arrivez dimanche 27 juillet, profitez-en dès le dimanche. Le spa et le fitness restent accessibles toute la semaine.
+    </div>
+    <div class="tip">
+      <strong>✅ Annulation gratuite</strong>
+      Vous pouvez annuler gratuitement avant le 22 juillet 2026 pour un remboursement complet. Réservez maintenant et payez plus tard (option $0 today disponible).
+    </div>
+    <div class="tip">
+      <strong>🔑 Self check-in</strong>
+      Check-in autonome avec le staff du bâtiment Icon. Pratique pour arriver tard après le road trip depuis Atlanta — pas besoin d'attendre un hôte.
+    </div>
+    <div class="tip">
+      <strong>🎁 $100 off une expérience</strong>
+      Le listing inclut $100 de réduction sur une expérience locale (tours, cours de cuisine, etc.). Profitez-en en complément de vos activités !
+    </div>
+  </div>
+</div>
+
+<footer>
+  Fait avec ❤️ pour Mimi &amp; ses amies · Airbnb Miami 🌴 · Icon Brickell · 44th Floor
+</footer>
+
+</body>
+</html>
