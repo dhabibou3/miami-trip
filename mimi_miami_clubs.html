@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎶 Mimi's Miami Nights</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --ocean: #0077b6;
+    --deep: #03045e;
+    --coral: #ff6b6b;
+    --gold: #f4a261;
+    --foam: #ffffff;
+    --ink: #1a1a2e;
+    --muted: #7a7a9a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #1a001a 0%, #6b0055 55%, #3d0040 100%);
+    padding: 64px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 60px;
+    background: var(--sand);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: var(--foam);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 36px;
+  }
+  .hero-stats {
+    display: inline-flex;
+    gap: 32px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 60px;
+    padding: 14px 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .val { font-size: 1.4rem; font-weight: 700; color: var(--foam); display: block; }
+  .hero-stat .lbl { font-size: 0.65rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; }
+
+  /* ── SECTION ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--deep);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .section-sub { text-align: center; color: var(--muted); font-size: 0.85rem; margin-bottom: 36px; }
+
+  /* ── CARDS ── */
+  .activities {
+    padding: 60px 20px 40px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--foam);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(3,4,94,0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(3,4,94,0.14); }
+
+  .card-thumb {
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+    background: #222;
+  }
+  .card-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.4s ease;
+  }
+  .card:hover .card-thumb img { transform: scale(1.06); }
+  .card-thumb .wave-line {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 28px;
+    background: var(--foam);
+    clip-path: polygon(0 60%, 20% 20%, 40% 60%, 60% 20%, 80% 60%, 100% 20%, 100% 100%, 0 100%);
+    z-index: 2;
+  }
+  .card-thumb .img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 100%);
+    z-index: 1;
+  }
+
+  .card-body { padding: 18px 20px 22px; flex: 1; display: flex; flex-direction: column; }
+
+  .card-tag {
+    font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 3px 10px; border-radius: 20px;
+    display: inline-block; margin-bottom: 10px; width: fit-content;
+  }
+  .c1 .card-tag { background: #ffe0f0; color: #c0006a; }
+  .c2 .card-tag { background: #f0e0ff; color: #7b2fbe; }
+  .c3 .card-tag { background: #fff0d6; color: #b06000; }
+  .c4 .card-tag { background: #ddf0ff; color: #0077b6; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; color: var(--ink); line-height: 1.35; margin-bottom: 8px;
+  }
+  .card-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; flex: 1; margin-bottom: 16px; }
+  .card-meta { display: flex; gap: 10px; font-size: 0.7rem; color: #999; margin-bottom: 14px; flex-wrap: wrap; }
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .price-box { background: #f8f5f0; border-radius: 12px; padding: 14px; border-left: 3px solid; }
+  .c1 .price-box { border-color: #c0006a; }
+  .c2 .price-box { border-color: #7b2fbe; }
+  .c3 .price-box { border-color: #b06000; }
+  .c4 .price-box { border-color: #0077b6; }
+
+  .price-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .price-label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+  .price-val { font-size: 1.15rem; font-weight: 700; color: var(--ink); }
+  .price-total { font-size: 0.8rem; font-weight: 600; color: var(--coral); margin-top: 6px; }
+  .price-note { font-size: 0.68rem; color: #bbb; margin-top: 5px; line-height: 1.4; }
+
+  .book-btn {
+    display: block; margin-top: 14px; text-align: center;
+    padding: 10px 16px; border-radius: 10px;
+    font-size: 0.78rem; font-weight: 600;
+    text-decoration: none; letter-spacing: 0.5px;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .book-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .c1 .book-btn { background: #c0006a; color: #fff; }
+  .c2 .book-btn { background: #7b2fbe; color: #fff; }
+  .c3 .book-btn { background: #b06000; color: #fff; }
+  .c4 .book-btn { background: #0077b6; color: #fff; }
+
+  /* ── SUMMARY ── */
+  .summary {
+    background: linear-gradient(135deg, #1a001a 0%, #6b0055 100%);
+    margin: 0 20px 60px;
+    max-width: 1020px;
+    margin-left: auto; margin-right: auto;
+    border-radius: 24px;
+    padding: 40px 36px;
+    color: var(--foam);
+    overflow: hidden;
+    position: relative;
+  }
+  .summary::after {
+    content: '🎶';
+    position: absolute; right: -10px; bottom: -20px;
+    font-size: 9rem; opacity: 0.06; line-height: 1; pointer-events: none;
+  }
+  .summary h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 6px; }
+  .summary .s-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+
+  .sum-table { width: 100%; border-collapse: collapse; }
+  .sum-table th {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.4); padding-bottom: 10px;
+    text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sum-table th:last-child { text-align: right; }
+  .sum-table td {
+    padding: 12px 0; font-size: 0.82rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.85);
+  }
+  .sum-table td:last-child { text-align: right; font-weight: 600; color: var(--gold); }
+  .sum-table tr:last-child td { border-bottom: none; }
+  .sum-table .icon-col { width: 32px; font-size: 1.1rem; }
+
+  .sum-total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+  .sum-total-row .t-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+  .sum-total-row .t-val { font-size: 2rem; font-weight: 700; color: var(--foam); }
+  .sum-total-row .t-note { font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  /* ── TIPS ── */
+  .tips { padding: 0 20px 60px; max-width: 1060px; margin: 0 auto; }
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 24px; }
+  .tip {
+    background: var(--foam); border-radius: 14px; padding: 18px;
+    font-size: 0.8rem; color: #555; line-height: 1.55;
+    border-top: 3px solid #c0006a;
+  }
+  .tip strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.82rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 28px 20px 40px;
+    color: #bbb; font-size: 0.72rem; letter-spacing: 1px;
+  }
+
+  @media (max-width: 520px) {
+    .cards { grid-template-columns: 1fr; }
+    .summary { padding: 28px 20px; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Miami Nightlife</div>
+  <h1>Mimi's Miami<br><em>Nights Out</em> 🎶</h1>
+  <p class="hero-sub">Budget des clubs · Dress codes · Réservations</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="val">4</span>
+      <span class="lbl">Clubs</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">~$260</span>
+      <span class="lbl">Budget / pers.</span>
+    </div>
+    <div class="hero-stat">
+      <span class="val">21+</span>
+      <span class="lbl">Âge min.</span>
+    </div>
+  </div>
+</div>
+
+<!-- CLUBS -->
+<div class="activities">
+  <h2 class="section-title">Les Clubs</h2>
+  <p class="section-sub">Dress code obligatoire partout · Pièce d'identité valide requise</p>
+
+  <div class="cards">
+
+    <!-- Card 1: E11EVEN -->
+    <div class="card c1">
+      <div class="card-thumb">
+        <img
+          src="https://images.discotech.me/venue/117/9adb4314-8400-4567-9019-737395456e7e.jpg"
+          referrerpolicy="no-referrer"
+          alt="E11EVEN Miami Nightclub"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a001a,#6b0055)'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">24/7 Ultra-Club</span>
+        <div class="card-title">E11EVEN Miami</div>
+        <div class="card-desc">Le seul ultra-club ouvert 24h/24 aux USA. Cirque aérien, DJs world-class, performances spectaculaires. #1 club aux États-Unis, #6 au monde. Downtown Miami.</div>
+        <div class="card-meta">
+          <span>🕐 24h/24 mer–lun</span>
+          <span>📍 29 NE 11th St</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Cover charge (femmes)</span>
+            <span class="price-val">$20–$50</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Drinks estimés</span>
+            <span class="price-val">~$50–80</span>
+          </div>
+          <div class="price-total">💰 Budget soirée : ~$70–$130/pers.</div>
+          <div class="price-note">👗 Upscale strict — pas de sneakers, shorts, casquettes</div>
+        </div>
+        <a class="book-btn" href="https://www.11miami.com/" target="_blank" rel="noopener">
+          🎟️ Site officiel & tickets →
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: ROSA SKY -->
+    <div class="card c2">
+      <div class="card-thumb">
+        <img
+          src="https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,w_600/f_auto/crm/miamifl/Rosa-Sky-Terrace_63C5152C-5056-A36A-0B61547E080163D0-63c511675056a36_63c519fa-5056-a36a-0b089722fae23334.jpg"
+          referrerpolicy="no-referrer"
+          alt="Rosa Sky Rooftop Miami"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a0033,#5a1080)'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Rooftop Lounge</span>
+        <div class="card-title">Rosa Sky</div>
+        <div class="card-desc">22e étage de l'AC Hotel Brickell — vue panoramique 360° sur le skyline. Cocktails signature, tapas partagées, DJs locaux. Ladies Night chaque mercredi.</div>
+        <div class="card-meta">
+          <span>🕐 Mar–Sam 4:30pm–2am</span>
+          <span>📍 115 SW 8th St, Fl.22</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Cover charge</span>
+            <span class="price-val">Gratuit*</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Drinks estimés</span>
+            <span class="price-val">~$40–70</span>
+          </div>
+          <div class="price-total">💰 Budget soirée : ~$40–$70/pers.</div>
+          <div class="price-note">✅ Ladies Night mercredi · Réservation recommandée</div>
+        </div>
+        <a class="book-btn" href="https://rosaskyrooftop.com/reservations/" target="_blank" rel="noopener">
+          🎟️ Réserver une table →
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: DIRTY RABBIT -->
+    <div class="card c3">
+      <div class="card-thumb">
+        <img
+          src="https://images.discotech.me/venue/None/27eb93d5-77f0-45a0-8d32-3593f1b5e34b.jpg"
+          referrerpolicy="no-referrer"
+          alt="The Dirty Rabbit Wynwood Miami"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a0f00,#5a3000)'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Latin Bar · Wynwood</span>
+        <div class="card-title">The Dirty Rabbit</div>
+        <div class="card-desc">Le terrain de jeu de Wynwood — esthétique "Alice in Wonderland", indoor-outdoor, reggaeton et Latin house jusqu'à 3h du mat. Ambiance étudiante et latine garantie.</div>
+        <div class="card-meta">
+          <span>🕐 7pm–3am (lun–dim)</span>
+          <span>📍 151 NW 24th St, Wynwood</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Cover charge</span>
+            <span class="price-val">$0–$20</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Drinks estimés</span>
+            <span class="price-val">~$30–60</span>
+          </div>
+          <div class="price-total">💰 Budget soirée : ~$30–$80/pers.</div>
+          <div class="price-note">⚠️ 20% service charge inclus automatiquement</div>
+        </div>
+        <a class="book-btn" href="https://feverup.com/m/136121" target="_blank" rel="noopener">
+          🎟️ Tickets & VIP Table →
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 4: LIV -->
+    <div class="card c4">
+      <div class="card-thumb">
+        <img
+          src="https://images.discotech.me/venue/94/136a0c91-b8c6-49e4-a54c-933c9881effd.jpg"
+          referrerpolicy="no-referrer"
+          alt="LIV Nightclub Miami Beach Fontainebleau"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#001a3a,#0060a0)'" />
+        <div class="img-overlay"></div>
+        <div class="wave-line"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Nightclub · South Beach</span>
+        <div class="card-title">LIV Nightclub</div>
+        <div class="card-desc">L'icône de South Beach au Fontainebleau Hotel. DJs mondiaux (Tiësto, DJ Khaled, David Guetta…), 18 000 m², décor XXL. La soirée la plus legendaire de Miami.</div>
+        <div class="card-meta">
+          <span>🕐 Jeu–Dim 11pm–5am</span>
+          <span>📍 4441 Collins Ave, Miami Beach</span>
+        </div>
+        <div class="price-box">
+          <div class="price-row">
+            <span class="price-label">Cover charge</span>
+            <span class="price-val">$60–$80</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label">Drinks estimés</span>
+            <span class="price-val">~$60–100</span>
+          </div>
+          <div class="price-total">💰 Budget soirée : ~$120–$180/pers.</div>
+          <div class="price-note">👠 Talon obligatoire pour les femmes — pas de flats/sandales</div>
+        </div>
+        <a class="book-btn" href="https://www.livnightclub.com/miami/" target="_blank" rel="noopener">
+          🎟️ Site officiel & tickets →
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BUDGET SUMMARY -->
+<div class="summary">
+  <h2>Récap Budget Soirées</h2>
+  <p class="s-sub">Estimations par personne · Hors bouteilles VIP, valet et pourboires</p>
+
+  <table class="sum-table">
+    <thead>
+      <tr>
+        <th class="icon-col"></th>
+        <th>Club</th>
+        <th>Style</th>
+        <th>Budget / soirée</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🎭</td>
+        <td>E11EVEN Miami</td>
+        <td>Ultra-Club 24/7</td>
+        <td>~$70–$130</td>
+      </tr>
+      <tr>
+        <td>🌆</td>
+        <td>Rosa Sky</td>
+        <td>Rooftop Lounge</td>
+        <td>~$40–$70</td>
+      </tr>
+      <tr>
+        <td>🐰</td>
+        <td>The Dirty Rabbit</td>
+        <td>Latin Bar</td>
+        <td>~$30–$80</td>
+      </tr>
+      <tr>
+        <td>💎</td>
+        <td>LIV Nightclub</td>
+        <td>Club VIP South Beach</td>
+        <td>~$120–$180</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sum-total-row">
+    <div>
+      <div class="t-label">Budget total estimé · 4 soirées / pers.</div>
+      <div class="t-val">~$260 – $460</div>
+      <div class="t-note">* Rosa Sky : pas de cover standard. Événements spéciaux peuvent être payants.</div>
+    </div>
+    <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.35);line-height:1.8;">
+      Prix en USD<br>
+      21+ · ID valide obligatoire<br>
+      Réserver à l'avance
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="tips">
+  <h2 class="section-title">Conseils Pratiques</h2>
+  <p class="section-sub">Pour une soirée sans mauvaises surprises</p>
+  <div class="tips-grid">
+    <div class="tip">
+      <strong>💃 Ladies Night Rosa Sky</strong>
+      Chaque mercredi, Rosa Sky organise un Ladies Night — entrée réduite ou gratuite. Parfait pour commencer la semaine en beauté avec vue sur le skyline.
+    </div>
+    <div class="tip">
+      <strong>👠 Dress code LIV</strong>
+      LIV est très strict : talons obligatoires pour les femmes, pas de flats ni sandales. E11EVEN et LIV refusent shorts, sneakers et casquettes pour tout le monde.
+    </div>
+    <div class="tip">
+      <strong>📅 Réservez à l'avance</strong>
+      LIV et E11EVEN se remplissent vite le week-end. Prenez vos tickets ou réservez une table minimum 48h avant pour éviter la longue file d'attente.
+    </div>
+    <div class="tip">
+      <strong>💸 Addition Dirty Rabbit</strong>
+      The Dirty Rabbit ajoute automatiquement 20% de service charge. Vérifiez votre addition avant d'ajouter un pourboire supplémentaire !
+    </div>
+    <div class="tip">
+      <strong>🌙 E11EVEN après 1h du matin</strong>
+      Le vrai spectacle commence après minuit. Seul club à continuer quand tous les autres ferment — parfait pour terminer la nuit en beauté.
+    </div>
+    <div class="tip">
+      <strong>🚗 Transport entre clubs</strong>
+      Wynwood (Dirty Rabbit) → Brickell (Rosa Sky) → Downtown (E11EVEN) → South Beach (LIV). Prenez Uber/Lyft — ne conduisez pas entre les clubs la nuit.
+    </div>
+  </div>
+</div>
+
+<footer>
+  Fait avec ❤️ pour Mimi &amp; ses amies · Miami Nightlife 🌙 · Vérifiez les tarifs avant chaque sortie
+</footer>
+
+</body>
+</html>
