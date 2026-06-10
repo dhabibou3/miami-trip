@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌴 HABIB & FRIENDS — Let's GO Miami</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --ocean: #0077b6;
+    --deep: #03045e;
+    --coral: #ff6b6b;
+    --gold: #f4a261;
+    --foam: #ffffff;
+    --ink: #1a1a2e;
+    --muted: #7a7a9a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HERO with real photo background ── */
+  .hero {
+    position: relative;
+    padding: 70px 24px 110px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1589083130544-0d6a2926e519?w=1600&q=80');
+    background-size: cover;
+    background-position: center 50%;
+    z-index: 0;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg,
+      rgba(3,4,94,0.72) 0%,
+      rgba(0,119,182,0.55) 50%,
+      rgba(3,4,94,0.65) 100%);
+  }
+  /* dot texture */
+  .hero-dots {
+    position: absolute; inset: 0; z-index: 1;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+  /* wave bottom */
+  .hero-wave {
+    position: absolute; bottom: -2px; left: 0; right: 0; z-index: 2;
+    height: 70px;
+    background: var(--sand);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .hero-inner {
+    position: relative; z-index: 3;
+    max-width: 800px; margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 8vw, 5.5rem);
+    color: var(--foam); line-height: 1.05; margin-bottom: 14px;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    color: rgba(255,255,255,0.65); font-size: 1rem;
+    font-weight: 300; letter-spacing: 1px; margin-bottom: 40px;
+  }
+  .hero-dates {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 60px; padding: 10px 28px;
+    font-size: 0.85rem; color: rgba(255,255,255,0.9);
+    font-weight: 500; backdrop-filter: blur(6px);
+  }
+  .hero-dates .dot { color: var(--gold); }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 64px 20px 0;
+    max-width: 1060px; margin: 0 auto;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; color: var(--deep);
+    text-align: center; margin-bottom: 8px;
+  }
+  .section-sub {
+    text-align: center; color: var(--muted);
+    font-size: 0.85rem; margin-bottom: 40px;
+  }
+
+  /* ── PAGE CARDS ── */
+  .page-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px; margin-bottom: 52px;
+  }
+  .page-card {
+    background: var(--foam);
+    border-radius: 24px; overflow: hidden;
+    box-shadow: 0 4px 28px rgba(3,4,94,0.08);
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    cursor: pointer;
+  }
+  .page-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 50px rgba(3,4,94,0.16);
+  }
+
+  /* card photo top */
+  .card-visual {
+    height: 170px;
+    position: relative; overflow: hidden;
+  }
+  .card-visual img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.45s ease;
+  }
+  .page-card:hover .card-visual img { transform: scale(1.07); }
+  .card-visual-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.32));
+    z-index: 1;
+  }
+  .card-wave {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 28px;
+    background: var(--foam);
+    clip-path: polygon(0 60%, 20% 20%, 40% 60%, 60% 20%, 80% 60%, 100% 20%, 100% 100%, 0 100%);
+    z-index: 2;
+  }
+
+  .card-body { padding: 16px 20px 0; flex: 1; }
+  .card-tag {
+    font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 3px 10px; border-radius: 20px;
+    display: inline-block; margin-bottom: 8px;
+  }
+  .pc1 .card-tag { background: #ddf0ff; color: #0055a0; }
+  .pc2 .card-tag { background: #ffe0f5; color: #8b005a; }
+  .pc3 .card-tag { background: #d6f5d6; color: #1a5c1a; }
+  .pc4 .card-tag { background: #ffe0e0; color: #a00020; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--ink); line-height: 1.3; margin-bottom: 6px;
+  }
+  .card-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.55; }
+
+  .card-footer {
+    padding: 14px 20px 20px;
+    border-top: 1px solid #f0ebe4; margin-top: 14px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .card-price-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; }
+  .card-price-val { font-size: 1.2rem; font-weight: 800; color: var(--ink); line-height: 1; }
+  .card-price-sub { font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
+  .card-arrow { font-size: 1.3rem; opacity: 0.25; transition: opacity 0.2s, transform 0.2s; }
+  .page-card:hover .card-arrow { opacity: 0.7; transform: translateX(4px); }
+
+  /* ── TOTAL ── */
+  .total-section {
+    padding: 0 20px 64px;
+    max-width: 1060px; margin: 0 auto;
+  }
+  .total-card {
+    background: linear-gradient(135deg, var(--deep) 0%, var(--ocean) 100%);
+    border-radius: 28px; padding: 44px 48px;
+    color: var(--foam); position: relative; overflow: hidden;
+    text-align: center;
+    box-shadow: 0 12px 50px rgba(3,4,94,0.25);
+  }
+  .total-card::before {
+    content: '🌴';
+    position: absolute; right: -20px; bottom: -30px;
+    font-size: 12rem; opacity: 0.05; line-height: 1; pointer-events: none;
+  }
+  .total-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 28px 28px; pointer-events: none;
+  }
+  .total-inner { position: relative; z-index: 2; }
+  .total-eyebrow { font-size: 0.68rem; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+  .total-label { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); color: var(--foam); margin-bottom: 24px; font-weight: 700; }
+
+  .total-breakdown {
+    display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 16px;
+    overflow: hidden; margin-bottom: 32px;
+    max-width: 780px; margin-left: auto; margin-right: auto;
+  }
+  .tb-item {
+    flex: 1; min-width: 140px; padding: 16px 14px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    text-align: center; background: rgba(255,255,255,0.04);
+  }
+  .tb-item:last-child { border-right: none; }
+  .tb-emoji { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+  .tb-name { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.45); margin-bottom: 4px; }
+  .tb-price { font-size: 1rem; font-weight: 700; color: var(--gold); }
+  .tb-price-sub { font-size: 0.6rem; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  .big-total-wrap {
+    display: inline-flex; flex-direction: column; align-items: center;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 20px; padding: 24px 48px; margin-bottom: 16px;
+  }
+  .big-total-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+  .big-total-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700; color: var(--foam); line-height: 1;
+  }
+  .big-total-per { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 6px; }
+  .total-note { font-size: 0.72rem; color: rgba(255,255,255,0.35); max-width: 560px; margin: 0 auto; line-height: 1.6; }
+
+  /* ── HERO NAV BUTTONS ── */
+  .hero-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .hero-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.4px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25);
+    transition: background 0.2s, transform 0.18s, border-color 0.2s;
+    color: #fff;
+  }
+  .hero-nav-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.5);
+  }
+  .hnb1 { background: rgba(0,119,182,0.55); }
+  .hnb1:hover { background: rgba(0,119,182,0.80); }
+  .hnb2 { background: rgba(107,15,90,0.60); }
+  .hnb2:hover { background: rgba(107,15,90,0.85); }
+  .hnb3 { background: rgba(46,92,0,0.55); }
+  .hnb3:hover { background: rgba(46,92,0,0.82); }
+  .hnb4 { background: rgba(192,57,43,0.55); }
+  .hnb4:hover { background: rgba(192,57,43,0.82); }
+
+  /* ── HERO 2-COL LAYOUT ── */
+  .hero-inner {
+    position: relative; z-index: 3;
+    width: 100%; max-width: 1060px; margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .hero-left {
+    flex: 1;
+    text-align: left;
+  }
+  .hero-right {
+    flex: 0 0 auto;
+    width: 280px;
+  }
+
+  /* budget box right */
+  .hero-budget-box {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 20px;
+    padding: 24px 28px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+  .hb-label {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px;
+    color: rgba(255,255,255,0.5); margin-bottom: 8px;
+  }
+  .hb-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    font-weight: 700; color: var(--foam);
+    line-height: 1; margin-bottom: 4px;
+  }
+  .hb-per {
+    font-size: 0.72rem; color: rgba(255,255,255,0.5);
+    line-height: 1.4;
+  }
+  .hb-divider {
+    height: 1px; background: rgba(255,255,255,0.15);
+    margin: 14px 0;
+  }
+  .hb-items {
+    display: flex; flex-direction: column; gap: 6px;
+    text-align: left;
+  }
+  .hb-item {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.7rem;
+  }
+  .hb-item-label { color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 5px; }
+  .hb-item-val { color: var(--gold); font-weight: 700; }
+
+  /* adjust hero-eyebrow and h1 for left-align */
+  .hero-left .hero-eyebrow { text-align: left; }
+  .hero-left h1 { text-align: left; }
+  .hero-left .hero-nav { justify-content: flex-start; }
+  .hero-left .hero-sub { text-align: left; }
+  .hero-left .hero-dates { display: inline-flex; }
+
+  @media (max-width: 780px) {
+    .hero-inner { flex-direction: column; align-items: center; }
+    .hero-left { text-align: center; }
+    .hero-left .hero-eyebrow, .hero-left h1, .hero-left .hero-sub { text-align: center; }
+    .hero-left .hero-nav { justify-content: center; }
+    .hero-right { width: 100%; max-width: 340px; }
+  }
+
+  @media (max-width: 580px) {
+    .page-cards { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .total-card { padding: 32px 20px; }
+    .tb-item { min-width: 100px; padding: 12px 8px; }
+    .big-total-wrap { padding: 20px 28px; }
+    .card-visual { height: 140px; }
+  }
+  @media (max-width: 380px) {
+    .page-cards { grid-template-columns: 1fr; }
+  }
+  /* ── COMMENTS ── */
+  .comments-section {
+    padding: 60px 20px 40px;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .comment-form-wrap { margin-bottom: 32px; }
+  .comments-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 760px) {
+    .comments-grid { grid-template-columns: 1fr; }
+  }
+  .comment-form-card {
+    background: var(--foam);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 24px rgba(3,4,94,0.07);
+    position: sticky;
+    top: 20px;
+  }
+  .cf-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; color: var(--ink);
+    margin-bottom: 16px; font-weight: 700;
+  }
+  .cf-row {
+    display: flex; gap: 10px; margin-bottom: 12px;
+  }
+  .cf-input {
+    flex: 1; padding: 10px 14px;
+    border: 1.5px solid #e8e0d6; border-radius: 10px;
+    font-size: 0.85rem; font-family: 'Inter', sans-serif;
+    outline: none; transition: border-color 0.2s;
+    background: #faf8f5; color: var(--ink);
+  }
+  .cf-input:focus { border-color: var(--ocean); }
+  .cf-select {
+    padding: 10px 12px; border: 1.5px solid #e8e0d6;
+    border-radius: 10px; font-size: 1.1rem;
+    background: #faf8f5; cursor: pointer; outline: none;
+    transition: border-color 0.2s;
+  }
+  .cf-select:focus { border-color: var(--ocean); }
+  .cf-textarea {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid #e8e0d6; border-radius: 10px;
+    font-size: 0.85rem; font-family: 'Inter', sans-serif;
+    resize: vertical; outline: none; transition: border-color 0.2s;
+    background: #faf8f5; color: var(--ink); line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .cf-textarea:focus { border-color: var(--ocean); }
+  .cf-footer {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cf-counter {
+    font-size: 0.68rem; color: var(--muted);
+  }
+  .cf-btn {
+    padding: 10px 24px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--deep), var(--ocean));
+    color: #fff; border: none; font-size: 0.82rem; font-weight: 700;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .cf-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .cf-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* comments list */
+  .comments-list { display: flex; flex-direction: column; gap: 14px; }
+  .comments-empty, .comments-loading {
+    text-align: center; color: var(--muted);
+    font-size: 0.85rem; padding: 32px 0;
+    background: var(--foam); border-radius: 14px;
+  }
+  .comment-card {
+    background: var(--foam);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 2px 14px rgba(3,4,94,0.05);
+    display: flex; gap: 14px; align-items: flex-start;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .comment-avatar {
+    font-size: 1.8rem; flex-shrink: 0;
+    width: 44px; height: 44px;
+    background: #f5ede0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .comment-body { flex: 1; }
+  .comment-meta {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 5px;
+    flex-wrap: wrap;
+  }
+  .comment-name {
+    font-weight: 700; font-size: 0.85rem; color: var(--ink);
+  }
+  .comment-date {
+    font-size: 0.68rem; color: var(--muted);
+  }
+  .comment-text {
+    font-size: 0.82rem; color: #444; line-height: 1.55;
+  }
+  .comment-delete {
+    background: none; border: none; cursor: pointer;
+    color: #ccc; font-size: 0.75rem; padding: 2px 6px;
+    border-radius: 6px; transition: color 0.2s, background 0.2s;
+    flex-shrink: 0;
+  }
+  .comment-delete:hover { color: var(--coral); background: #fff0f0; }
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-wave"></div>
+  <div class="hero-inner">
+
+    <!-- LEFT: title + nav + sub -->
+    <div class="hero-left">
+      <div class="hero-eyebrow">Vacances à Miami 🌴</div>
+      <h1>HABIB &amp; FRIENDS<br><em>Let's F*cking GO Guys</em></h1>
+
+      <!-- NAV BUTTONS -->
+      <div class="hero-nav">
+        <a class="hero-nav-btn hnb1" href="mimi_miami_trip.html">🌊 Activités</a>
+        <a class="hero-nav-btn hnb2" href="mimi_miami_clubs.html">🎶 Clubs</a>
+        <a class="hero-nav-btn hnb3" href="mimi_miami_voiture.html">🚗 Voiture</a>
+        <a class="hero-nav-btn hnb4" href="mimi_miami_airbnb.html">🏠 Airbnb</a>
+      </div>
+
+      <p class="hero-sub">Le guide complet de notre séjour entre potos</p>
+      <div class="hero-dates">
+        <span class="dot">📅</span>
+        <span>27 – 30 Juillet 2026</span>
+        <span class="dot">·</span>
+        <span>6 Amies</span>
+        <span class="dot">·</span>
+        <span>3 Nuits</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: total budget box -->
+    <div class="hero-right">
+      <div class="hero-budget-box">
+        <div class="hb-label">Total Global Estimé</div>
+        <div class="hb-num">~$1,412</div>
+        <div class="hb-per">par personne · option économique</div>
+        <div class="hb-divider"></div>
+        <div class="hb-items">
+          <div class="hb-item">
+            <span class="hb-item-label">🌊 Activités</span>
+            <span class="hb-item-val">~$893</span>
+          </div>
+          <div class="hb-item">
+            <span class="hb-item-label">🎶 Clubs</span>
+            <span class="hb-item-val">~$260</span>
+          </div>
+          <div class="hb-item">
+            <span class="hb-item-label">🚗 Voiture</span>
+            <span class="hb-item-val">~$103</span>
+          </div>
+          <div class="hb-item">
+            <span class="hb-item-label">🏠 Airbnb</span>
+            <span class="hb-item-val">$156</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 4 CARDS -->
+<div class="section">
+  <h2 class="section-title">Vos Pages de Trip</h2>
+  <p class="section-sub">Cliquez sur chaque section pour voir tous les détails</p>
+
+  <div class="page-cards">
+
+    <!-- Activities — yacht image -->
+    <a class="page-card pc1" href="mimi_miami_trip.html">
+      <div class="card-visual">
+        <img
+          src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=600&q=80"
+          referrerpolicy="no-referrer"
+          alt="Yacht Miami activities"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#023e8a,#0077b6)'" />
+        <div class="card-visual-overlay"></div>
+        <div class="card-wave"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Activités</span>
+        <div class="card-title">Les Activités Miami</div>
+        <div class="card-desc">ATV Glow, JetCar, Yacht BYOB, Jetski — 4 expériences inoubliables sur l'eau et dans la nature.</div>
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-price-label">Budget / pers.</div>
+          <div class="card-price-val">~$893</div>
+          <div class="card-price-sub">jusqu'à ~$968</div>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Clubs — E11EVEN / LIV image -->
+    <a class="page-card pc2" href="mimi_miami_clubs.html">
+      <div class="card-visual">
+        <img
+          src="https://images.discotech.me/venue/117/9adb4314-8400-4567-9019-737395456e7e.jpg"
+          referrerpolicy="no-referrer"
+          alt="E11EVEN Miami nightclub"
+          onerror="this.src='https://images.discotech.me/venue/94/136a0c91-b8c6-49e4-a54c-933c9881effd.jpg';this.onerror=function(){this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a001a,#6b0055)'}" />
+        <div class="card-visual-overlay"></div>
+        <div class="card-wave"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Nightlife</span>
+        <div class="card-title">Les Clubs Miami</div>
+        <div class="card-desc">E11EVEN, Rosa Sky, Dirty Rabbit, LIV — 4 soirées de folie avec dress codes et budgets.</div>
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-price-label">Budget / pers.</div>
+          <div class="card-price-val">~$260</div>
+          <div class="card-price-sub">jusqu'à ~$460</div>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Voiture — RAV4 2026 -->
+    <a class="page-card pc3" href="mimi_miami_voiture.html">
+      <div class="card-visual">
+        <img
+          src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80"
+          referrerpolicy="no-referrer"
+          alt="Car on highway road trip"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0a1a00,#2e5c00)'" />
+        <div class="card-visual-overlay"></div>
+        <div class="card-wave"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Transport</span>
+        <div class="card-title">Budget Voiture</div>
+        <div class="card-desc">Road trip Atlanta → Miami, essence, péages Florida Turnpike et location RAV4 sur place.</div>
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-price-label">Budget / pers. (÷4)</div>
+          <div class="card-price-val">~$103</div>
+          <div class="card-price-sub">jusqu'à ~$116</div>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Airbnb — Icon Brickell building -->
+    <a class="page-card pc4" href="mimi_miami_airbnb.html">
+      <div class="card-visual">
+        <img
+          src="https://a0.muscache.com/im/pictures/hosting/Hosting-1456867249462023206/original/951de26d-340d-41be-9ecf-c7f35433dc43.png?im_w=720"
+          referrerpolicy="no-referrer"
+          alt="Icon Brickell Miami Airbnb"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#6b0f1a,#c0392b)'" />
+        <div class="card-visual-overlay"></div>
+        <div class="card-wave"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Hébergement</span>
+        <div class="card-title">Airbnb Icon Brickell</div>
+        <div class="card-desc">44e étage, 2 chambres, vue City & Ocean, Spa & Pool. Icon Brickell, Miami — 3 nuits.</div>
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="card-price-label">Budget / pers. (÷6)</div>
+          <div class="card-price-val">$156</div>
+          <div class="card-price-sub">$937.90 total · 3 nuits</div>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- TOTAL -->
+<div class="total-section">
+  <div class="total-card">
+    <div class="total-inner">
+      <div class="total-eyebrow">Récap complet · 6 amies · Miami 2026</div>
+      <div class="total-label">Budget Total par Personne</div>
+      <div class="total-breakdown">
+        <div class="tb-item">
+          <span class="tb-emoji">🌊</span>
+          <div class="tb-name">Activités</div>
+          <div class="tb-price">~$893</div>
+          <div class="tb-price-sub">/ pers.</div>
+        </div>
+        <div class="tb-item">
+          <span class="tb-emoji">🎶</span>
+          <div class="tb-name">Clubs</div>
+          <div class="tb-price">~$260</div>
+          <div class="tb-price-sub">/ pers.</div>
+        </div>
+        <div class="tb-item">
+          <span class="tb-emoji">🚗</span>
+          <div class="tb-name">Voiture</div>
+          <div class="tb-price">~$103</div>
+          <div class="tb-price-sub">/ pers. ÷4</div>
+        </div>
+        <div class="tb-item">
+          <span class="tb-emoji">🏠</span>
+          <div class="tb-name">Airbnb</div>
+          <div class="tb-price">$156</div>
+          <div class="tb-price-sub">/ pers. ÷6</div>
+        </div>
+      </div>
+      <div class="big-total-wrap">
+        <div class="big-total-label">Total Global Estimé</div>
+        <div class="big-total-num">~$1,412</div>
+        <div class="big-total-per">par personne · option économique</div>
+      </div>
+      <div class="total-note">
+        💡 Basé sur l'option économique pour chaque poste. Avec les clubs en mode VIP et le yacht solo, le budget peut monter jusqu'à <strong>~$1,700/pers.</strong> · Activités partagées = prix réduits · Airbnb ÷ 6 · Voiture ÷ 4
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMENTS SECTION -->
+<div class="comments-section">
+  <h2 class="section-title">💬 On se parle ici !</h2>
+  <p class="section-sub">Laisse ton commentaire, pose une question, ou confirme ta présence ✋</p>
+
+  <!-- ADD COMMENT FORM + LIST GRID -->
+  <div class="comments-grid">
+
+    <!-- LEFT: form -->
+    <div class="comment-form-wrap">
+      <div class="comment-form-card">
+        <div class="cf-header">✍️ Ajouter un commentaire</div>
+        <div class="cf-row">
+          <input id="cf-name" class="cf-input" type="text" placeholder="Ton prénom 👤" maxlength="30" />
+          <select id="cf-emoji" class="cf-select">
+            <option value="🙋‍♀️">🙋‍♀️</option>
+            <option value="🔥">🔥</option>
+            <option value="😍">😍</option>
+            <option value="🌴">🌴</option>
+            <option value="🥂">🥂</option>
+            <option value="💃">💃</option>
+            <option value="🚗">🚗</option>
+            <option value="🏠">🏠</option>
+            <option value="✅">✅</option>
+            <option value="❤️">❤️</option>
+          </select>
+        </div>
+        <textarea id="cf-text" class="cf-textarea" placeholder="Écris ton message ici... (ex: je suis IN ! 🙌)" maxlength="280" rows="4"></textarea>
+        <div class="cf-footer">
+          <span id="cf-counter" class="cf-counter">0 / 280</span>
+          <button id="cf-submit" class="cf-btn" onclick="submitComment()">Envoyer 🚀</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: list -->
+    <div id="comments-list" class="comments-list">
+      <div class="comments-loading">Chargement des commentaires...</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Storage key ──
+const STORE_KEY = 'mimi-miami-comments-v1';
+
+// ── Load comments from localStorage ──
+function loadComments() {
+  try {
+    const stored = localStorage.getItem(STORE_KEY);
+    const comments = stored ? JSON.parse(stored) : [];
+    renderComments(comments);
+  } catch (e) {
+    renderComments([]);
+  }
+}
+
+// ── Save comment ──
+function submitComment() {
+  const name = document.getElementById('cf-name').value.trim();
+  const text = document.getElementById('cf-text').value.trim();
+  const emoji = document.getElementById('cf-emoji').value;
+  const btn = document.getElementById('cf-submit');
+
+  if (!name) { flashInput('cf-name', 'Ajoute ton prénom !'); return; }
+  if (!text)  { flashInput('cf-text',  'Écris quelque chose !'); return; }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Envoi...';
+
+  try {
+    const stored = localStorage.getItem(STORE_KEY);
+    let comments = stored ? JSON.parse(stored) : [];
+
+    const newComment = {
+      id: Date.now(),
+      name,
+      emoji,
+      text,
+      date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+    };
+
+    comments.unshift(newComment);
+    localStorage.setItem(STORE_KEY, JSON.stringify(comments));
+
+    // Reset form
+    document.getElementById('cf-name').value = '';
+    document.getElementById('cf-text').value = '';
+    document.getElementById('cf-counter').textContent = '0 / 280';
+    renderComments(comments);
+  } catch(e) {
+    console.error(e);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Envoyer 🚀';
+}
+
+// ── Delete comment ──
+function deleteComment(id) {
+  try {
+    const stored = localStorage.getItem(STORE_KEY);
+    let comments = stored ? JSON.parse(stored) : [];
+    comments = comments.filter(c => c.id !== id);
+    localStorage.setItem(STORE_KEY, JSON.stringify(comments));
+    renderComments(comments);
+  } catch(e) {}
+}
+
+// ── Render ──
+function renderComments(comments) {
+  const list = document.getElementById('comments-list');
+  if (!comments.length) {
+    list.innerHTML = '<div class="comments-empty">Soyez les premiers à commenter ! 🌴</div>';
+    return;
+  }
+  list.innerHTML = comments.map(c => `
+    <div class="comment-card" id="c-${c.id}">
+      <div class="comment-avatar">${c.emoji}</div>
+      <div class="comment-body">
+        <div class="comment-meta">
+          <span class="comment-name">${escHtml(c.name)}</span>
+          <span class="comment-date">${c.date}</span>
+        </div>
+        <div class="comment-text">${escHtml(c.text)}</div>
+      </div>
+      <button class="comment-delete" onclick="deleteComment(${c.id})" title="Supprimer">✕</button>
+    </div>
+  `).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function flashInput(id, msg) {
+  const el = document.getElementById(id);
+  el.placeholder = msg;
+  el.style.borderColor = '#ff6b6b';
+  setTimeout(() => {
+    el.style.borderColor = '';
+    el.placeholder = id === 'cf-name' ? 'Ton prénom 👤' : 'Écris ton message ici...';
+  }, 2000);
+}
+
+// Live counter
+document.getElementById('cf-text').addEventListener('input', function() {
+  document.getElementById('cf-counter').textContent = this.value.length + ' / 280';
+});
+
+// Load on start
+loadComments();
+</script>
+
+<footer>
+  Fait avec ❤️ pour HABIB &amp; FRIENDS · Miami 🌴 · 27–30 Juillet 2026
+</footer>
+
+</body>
+</html>
